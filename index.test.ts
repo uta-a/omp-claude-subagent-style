@@ -163,13 +163,29 @@ test("arrow selection does not change the viewed session until Enter; main resto
   h.key(DOWN);
   h.key(ENTER);
   expect(h.viewed).toBe("B");
+  // Repeated Down at the final row must not wrap to main.
   h.key(DOWN);
   h.key(ENTER);
-  expect(h.viewed).toBe(MAIN_AGENT_ID);
+  expect(h.viewed).toBe("B");
+  h.key(UP);
   h.key(UP);
   h.key(ENTER);
-  expect(h.viewed).toBe("B");
+  expect(h.viewed).toBe(MAIN_AGENT_ID);
   expect(h.submissions).toEqual([]);
+});
+
+test("Up from main returns to the prompt without selecting a child or consuming Enter", () => {
+  const h = host();
+  h.emit("lifecycle", { id: "A", agent: "review", status: "started" });
+  h.key(DOWN);
+  h.key(UP);
+  h.key(UP);
+  h.key(ENTER);
+  expect(h.viewed).toBe(MAIN_AGENT_ID);
+  expect(h.submissions).toEqual([""]);
+  h.key("hello");
+  h.key(ENTER);
+  expect(h.submissions).toEqual(["", "hello"]);
 });
 
 test("finishing the selected/viewed agent returns to main without selecting a different child", () => {

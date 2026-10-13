@@ -150,7 +150,12 @@ export default function claudeSubagentStyle(pi: ExtensionAPI): void {
           const ids = [MAIN_AGENT_ID, ...rows.keys()];
           const current = navigating ? selectedId : viewedId();
           const index = Math.max(0, ids.indexOf(current));
-          selectedId = ids[(index + direction + ids.length) % ids.length]!;
+          if (index === 0 && direction === -1) {
+            navigating = false;
+            render();
+            return;
+          }
+          selectedId = ids[Math.min(index + direction, ids.length - 1)]!;
           navigating = true;
           render();
         },

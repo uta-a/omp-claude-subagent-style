@@ -5,13 +5,13 @@
   },
   "metadata": {
     "description": "OMP UI extensions by uta-a",
-    "version": "1.0.0"
+    "version": "1.0.1"
   },
   "plugins": [
     {
       "name": "omp-claude-subagent-style",
       "description": "Claude Code-style subagent roster with keyboard selection and native conversation switching for omp",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "source": "./",
       "author": {
         "name": "uta-a"

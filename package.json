@@ -1,6 +1,6 @@
 {
   "name": "omp-claude-subagent-style",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Compact Claude Code-style subagent durations below the omp chat",
   "repository": {
     "type": "git",
