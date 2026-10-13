@@ -1,0 +1,25 @@
+{
+  "name": "uta-a-omp-plugins",
+  "owner": {
+    "name": "uta-a"
+  },
+  "metadata": {
+    "description": "OMP UI extensions by uta-a",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "omp-claude-subagent-style",
+      "description": "Claude Code-style subagent roster with keyboard selection and native conversation switching for omp",
+      "version": "1.0.0",
+      "source": "./",
+      "author": {
+        "name": "uta-a"
+      },
+      "homepage": "https://github.com/uta-a/omp-claude-subagent-style",
+      "repository": "https://github.com/uta-a/omp-claude-subagent-style",
+      "category": "productivity",
+      "tags": ["omp", "subagents", "tui"]
+    }
+  ]
+}
