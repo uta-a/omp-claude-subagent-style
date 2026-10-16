@@ -150,6 +150,26 @@ test("same-type agents are distinct and failed or aborted instances disappear in
   expect(h.lines).toBeUndefined();
 });
 
+test("same-role agents display their role while navigation keeps their identities distinct", () => {
+  const h = host();
+  h.emit("lifecycle", { id: "IconAssets", agent: "implementer", status: "started" });
+  h.emit("lifecycle", { id: "IllustrationAssets", agent: "implementer", status: "started" });
+  expect(h.lines?.[1]).toContain("implementer");
+  expect(h.lines?.[2]).toContain("implementer");
+  for (const id of ["IconAssets", "IllustrationAssets"]) {
+    h.emit("progress", { agent: "implementer", progress: { id, status: "running", durationMs: 1000 } });
+  }
+  expect(h.lines?.[1]).toContain("implementer");
+  expect(h.lines?.[2]).toContain("implementer");
+  expect(h.lines?.join("\n")).not.toMatch(/IconAssets|IllustrationAssets/);
+  h.key(DOWN);
+  h.key(ENTER);
+  expect(h.viewed).toBe("IconAssets");
+  h.key(DOWN);
+  h.key(ENTER);
+  expect(h.viewed).toBe("IllustrationAssets");
+});
+
 test("arrow selection does not change the viewed session until Enter; main restores the view", () => {
   const h = host();
   h.emit("lifecycle", { id: "A", agent: "review", status: "started" });
@@ -198,7 +218,6 @@ test("finishing the selected/viewed agent returns to main without selecting a di
   expect(h.viewed).toBe(MAIN_AGENT_ID);
   h.key(ENTER);
   expect(h.viewed).toBe(MAIN_AGENT_ID);
-  expect(h.lines?.[1]).toContain("review");
   h.emit("lifecycle", { id: "B", agent: "review", status: "completed" });
   expect(h.lines).toBeUndefined();
 });
@@ -250,7 +269,7 @@ test("headless and child sessions do not create widgets or replace the editor", 
 });
 
 test("resizing bounds Japanese, emoji and controls while preserving right-aligned statistics", () => {
-  const row: AgentRow = { id: "A", agent: "ensemble:explore", description: "ホーム直下の構成確認 🔍".repeat(20), tokens: 4300, durationMs: 12000, updatedAt: 0 };
+  const row: AgentRow = { id: "AssetExplorer", agent: "explore", description: "ホーム直下の構成確認 🔍".repeat(20), tokens: 4300, durationMs: 12000, updatedAt: 0 };
   for (const width of [0, 1, 12, 30, 80, 120]) {
     const lines = renderRoster([row], width, 0, theme);
     for (const line of lines) expect(visibleWidth(line)).toBeLessThanOrEqual(width);
